@@ -1,0 +1,272 @@
+html {
+    font-family: 'Alkatra', cursive;
+    background: linear-gradient(86deg, rgba(246,195,110,1) 0%, rgba(217,189,172,1) 18%, rgba(210,207,178,1) 45%, rgba(199,214,187,1) 60%, rgba(169,221,186,1) 77%, rgba(128,231,252,1) 100%);
+    /* background-image: url('../assets/campo-batalla.png'); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+#seleccionar-mascota, #seleccionar-ataque {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#seleccionar-mascota h1, #seleccionar-ataque h1 {
+    font-family: 'Fasthand', cursive;
+    font-size: 95px;
+    margin: 0;
+}
+
+#seleccionar-mascota div, #seleccionar-ataque div {
+    display: inherit;
+    width: 90%;
+    height: 350px;
+    gap: 20px;
+    align-items: center;
+    background-color: rgba(128,231,252,0.4);
+    border: 5px solid rgba(23, 121, 140, 0.7);
+    border-radius: 10px;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+#seleccionar-mascota div img {
+    width: 250px;
+} 
+
+
+#seleccionar-mascota h2, #seleccionar-ataque h2 {
+    text-align: center;
+    margin: 0;
+}
+
+#seleccionar-mascota label {
+    text-align: center;
+}
+#seleccionar-mascota label:hover {
+    border: 1px solid rgb(3, 150, 179);
+    border-radius: 15px;
+    padding: 5px;
+    box-shadow: 0px 0px 57px -10px rgba(0,0,0,0.75);
+}
+
+#seleccionar-mascota input:checked+label {
+    border: 1px solid rgb(255 255 255);
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgb(3, 150, 179);
+    box-shadow: 0px 0px 57px -10px rgba(0,0,0,0.75);
+}
+
+#seleccionar-mascota label p {
+    font-size: 30px;
+    margin: 0;
+}
+
+#seleccionar-ataque div #section-mascotas-seleccionadas {
+    display: flex;
+    flex-direction: row;
+    margin: 0 20px;
+}
+
+#seleccionar-mascota input {
+    display: none;
+}
+
+#result-final {
+    background-color: #FFF;
+    color: rgb(2, 71, 85);
+    border: 4px solid rgba(23, 121, 140, 0.7);
+    border-radius: 20px;
+    font-size: 20px;
+    padding: 5px 20px;
+} 
+
+#seleccionar-mascota button, #seleccionar-ataque button, #reinicio button  {
+    width: 300px;
+    height: 35px;
+    margin-bottom: 15px;
+    border-radius: 20px;
+    color: rgb(2, 71, 85);
+    border: 4px solid rgba(23, 121, 140, 0.7);
+    font-size: 20px;
+    font-weight: bold;
+}
+#reinicio button {
+    background-color: #FFF;
+}
+
+#mascota-seleccionada-jugador, #mascota-seleccionada-enemigo {
+    width: 300px;
+}
+
+#seleccionar-ataque #section-ataque {
+    margin-top: 130px;
+}
+
+#seleccionar-ataque #section-ataque-buttons {
+    flex-direction: row;
+}
+
+#section-ataque #section-results {
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+} 
+
+#section-ataque #section-results h4 {
+    margin: 0;
+    font-size: 30px;
+} 
+
+#section-ataque #section-results p {
+    font-size: 20px;
+} 
+
+#seleccionar-ataque div {
+    height: 185px;
+    margin: 0;
+    flex-direction: column;
+    background-color: transparent;
+    border: none;
+} 
+
+#nombreMascota img, #nombreMascotaEnemigo img{
+    width: 250px;
+}
+
+#mascotaVida, #mascotaVidaEnemigo {
+    /* background-color: white; */
+    background-color: rgb(83, 153, 250);
+    border-radius: 50%;
+    /* border: 1px solid black; */
+    border: 4px solid rgba(23, 121, 140, 0.7);
+    width: 70px;
+    text-align: center;
+    color: rgb(1 41 49);
+    margin: 0;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#section-mascotas-seleccionadas #sectionVS {
+    flex-direction: row;
+    background-color: rgb(87 191 129 / 45%);
+    height: 220px;
+}
+
+#sectionVS #rondaP {
+    font-family: 'Fasthand', cursive;
+    font-size: 50px;
+    margin: 0;
+}
+
+#verMapa {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#mapa {
+    /* background-image: url('../assets/mokemap.png'); */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 1px solid #000;
+}
+
+/* RESPONSIVE  */
+@media (max-width: 935px) {
+    #seleccionar-mascota div {
+        width: 75%;
+        height: 220px;
+        gap: 0;
+    }
+
+    #seleccionar-mascota div img {
+        width: 145px;
+    }
+
+    #seleccionar-mascota label p {
+        font-size: 18px;
+        margin: 0;
+    }
+}
+@media (max-width: 722px) {
+    #seleccionar-mascota div {
+        width: 70%;
+        height: 160px;
+        gap: 0;
+    }
+
+    #seleccionar-mascota div img {
+        width: 100px;
+    }
+
+    #seleccionar-mascota label p {
+        font-size: 15px;
+        margin: 0;
+    }
+
+    #nombreMascota img, #nombreMascotaEnemigo img {
+        width: 180px;
+    } 
+}
+@media (max-width: 600px) {
+    html {
+        background: linear-gradient(86deg, rgba(246,195,110,1) 0%, rgba(217,189,172,1) 18%, rgba(210,207,178,1) 45%, rgba(199,214,187,1) 60%, rgba(169,221,186,1) 77%, rgba(128,231,252,1) 100%);
+    } 
+    #seleccionar-mascota h1, #seleccionar-ataque h1 {
+        font-size: 65px;
+    }
+    #seleccionar-mascota div {
+        display: inherit;
+        width: 60%;
+        flex-direction: column;
+        height: auto;
+    }
+    #seleccionar-mascota div img {
+        width: 75px;
+    }
+
+    #seleccionar-mascota label p {
+        font-size: 15px;
+        margin: 0;
+    }
+    #seleccionar-ataque #section-ataque {
+        margin-top: 0;
+    }
+    #seleccionar-ataque #section-ataque-buttons {
+        flex-direction: column;
+    }
+
+    #seleccionar-ataque div {
+        height: auto;
+    }
+
+    #section-ataque #section-results h4 {
+        margin: 0;
+        font-size: 18px;
+    }
+
+    #seleccionar-ataque div #section-mascotas-seleccionadas {
+        flex-direction: column;
+    }
+
+    #seleccionar-ataque button {
+        width: 180px;
+        font-size: 15px;
+        margin-bottom: 0;
+    }
+
+    #nombreMascota img, #nombreMascotaEnemigo img {
+        width: 130px;
+    } 
+
+    #mascotaVida, #mascotaVidaEnemigo {
+        width: 30px;
+        height: 30px;
+    }
+}
+
