@@ -380,6 +380,9 @@ function pintarCanvas() {
     lienzo.drawImage(mapaBackground, 0, 0, mapa.width, mapa.height)
     // Lo vamos dibujando pasandole la foto, el valor en x, en y, el alto y el ancho de la img
     mokeponSeleccionado.pintarMokepon()
+
+    enviarPosicion(mokeponSeleccionado.x, mokeponSeleccionado.y)
+
     hipodogeObjetoEnemigo.pintarMokepon()
     capipepoObjetoEnemigo.pintarMokepon()
     ratigueyaObjetoEnemigo.pintarMokepon()
@@ -494,21 +497,43 @@ function unirseAlJugo() {
         .then(function (res) {
             if (res.ok) {
                 res.text()
+                // Recibimos la respuesta del Backend
                     .then(function (resp) {
-                        jugadorId = resp
+                        jugadorId = resp 
                     })
             }
         } )
 }
 
+// Enviamos el dato de que mokepon seleccionamos al Backend
 function seleccionarMokepon(mascotaJugador) {
+    // URL definida en el Backend (a donde vamos a mandar la peticion) pasandole el ID del jugador
     fetch(`http://localhost:8080/mokepon/${jugadorId}`, {
-        method: "post",
-        headers: {
+        method: "post", // Definimos que sea de tipo POST la peticion
+        headers: { // Definimos que tipo de datos vamos a enviarle al Backend
             "Content-Type": "application/json"
-        },
+        }, // Definimos que le vamos a enviar en el JSON
+        // Acepta solo cadena de textos, por eso usamos esa fn para convertir los datos a ese tipo aceptable
         body: JSON.stringify({
             mokepon: mascotaJugador
         })
-    })
+    }) // Como no espera respuesta no es necesario utilizar el then()
 } 
+
+// Creamos la funcion donde vamos a hacer la peticion al Backend pasandole la posicion en x, y
+function enviarPosicion(x, y) {
+    // Llamamos al endpoint creado en el Backend pasandole el ID del jugador que lo hace
+    fetch(`http://localhost:8080/mokepon/${jugadorId}/posicion`, {
+        method: "post", // Indicamos que es tipo POST
+        headers: { // Indicamos que vamos a mandar un JSON
+            "Content-Type": "application/json"
+        },
+        // Convertimos el JSON en cadena de texto
+        body: JSON.stringify({ 
+            // Pasamos los datos
+            // En este caso no hace falta seguir la regla de "clave": "valor" ya que estos tienen el mismo nombre, por ende, JavaScript asocia el valor y la clave
+            x,
+            y
+        })
+    }) // Como no recibimos respuesta no es necesario utilizar el then()
+}
