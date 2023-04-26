@@ -373,17 +373,18 @@ function pintarCanvas() {
     // por cada mokepon que se une los vamos pintando
     mokeponesEnemigos.forEach(function (mokepon) {
         mokepon.pintarMokepon()
+        revisaColision(mokepon)
     })
     // hipodogeObjetoEnemigo.pintarMokepon()
     // capipepoObjetoEnemigo.pintarMokepon()
     // ratigueyaObjetoEnemigo.pintarMokepon()
     // Revisamos si nuestro mokepon está en movimiento
     // Llamamos a la fn de colision pasandole como parámetro contra quien
-    if (mokeponSeleccionado.velocidadX !== 0 || mokeponSeleccionado.velocidadY !== 0) {
-        revisaColision(hipodogeObjetoEnemigo)
-        revisaColision(capipepoObjetoEnemigo)
-        revisaColision(ratigueyaObjetoEnemigo)
-    }
+    // if (mokeponSeleccionado.velocidadX !== 0 || mokeponSeleccionado.velocidadY !== 0) {
+    //     revisaColision(hipodogeObjetoEnemigo)
+    //     revisaColision(capipepoObjetoEnemigo)
+    //     revisaColision(ratigueyaObjetoEnemigo)
+    // }
 }
 // Funciones donde definimos los movimiento
 function moverDer() {
@@ -537,22 +538,24 @@ function enviarPosicion(x, y) {
                 .then(function ({enemigos}) {
                     // Utilizamos map (similar a forEach) ya que este nos devuelve el valor con la nueva lista modificada
                     mokeponesEnemigos = enemigos.map(function (enemigo) {
-                        const mokeponNombre = enemigo.mokepon.nombre || "" 
-                        let mokeponEnemigo = null
-                        if (mokeponNombre === "Hipodoge") {
-                            mokeponEnemigo = new Mokepon('Hipodoge', './assets/hipodoge.png', 3, './assets/hipodogeMapa.png', 200, 404)
+                        if (enemigo.mokepon != undefined) {
+                            const mokeponNombre = enemigo.mokepon.nombre || "" 
+                            let mokeponEnemigo = null
+                            if (mokeponNombre === "Hipodoge") {
+                                mokeponEnemigo = new Mokepon('Hipodoge', './assets/hipodoge.png', 3, './assets/hipodogeMapa.png', 200, 404)
 
-                        } else if (mokeponNombre === "Capipepo") {
-                            mokeponEnemigo = new Mokepon('Capipepo', './assets/capipepo.png', 3, './assets/capipepoMapa.png', 700, 250)
+                            } else if (mokeponNombre === "Capipepo") {
+                                mokeponEnemigo = new Mokepon('Capipepo', './assets/capipepo.png', 3, './assets/capipepoMapa.png', 700, 250)
 
-                        } else if (mokeponNombre === "Ratigueya"){
-                            mokeponEnemigo = new Mokepon('Ratigueya', './assets/ratigueya.png', 3, './assets/ratigueyaMapa.png', 350, 100)
+                            } else if (mokeponNombre === "Ratigueya"){
+                                mokeponEnemigo = new Mokepon('Ratigueya', './assets/ratigueya.png', 3, './assets/ratigueyaMapa.png', 350, 100)
+                            }
+                            // Actualizamos los datos de las coordenadas de los mokepones nuevos a medida que se vayan uniendo
+                            mokeponEnemigo.x = enemigo.x
+                            mokeponEnemigo.y = enemigo.y
+                            // devolvemos los valores (lo requiere map)
+                            return mokeponEnemigo
                         }
-                        // Actualizamos los datos de las coordenadas de los mokepones nuevos a medida que se vayan uniendo
-                        mokeponEnemigo.x = enemigo.x
-                        mokeponEnemigo.y = enemigo.y
-                        // devolvemos los valores (lo requiere map)
-                        return mokeponEnemigo
                     })
                 })
         }
