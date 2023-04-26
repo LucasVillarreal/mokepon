@@ -370,6 +370,7 @@ function pintarCanvas() {
     mokeponSeleccionado.pintarMokepon()
 
     enviarPosicion(mokeponSeleccionado.x, mokeponSeleccionado.y)
+    // por cada mokepon que se une los vamos pintando
     mokeponesEnemigos.forEach(function (mokepon) {
         mokepon.pintarMokepon()
     })
@@ -525,11 +526,16 @@ function enviarPosicion(x, y) {
             x,
             y
         })
-    })
+    }) // Utilzamos then ya que el endpoint nos devuelve un resultado, que en este caso son los demas jugadores que se unen
     .then(function (res) {
+        // Chequeamos que recibimos correctamente la respuesta
         if (res.ok) {
-            res.json()
+            // Leemos los datos y estos vienen en formato JSON
+            res.json() 
+            // Como es una promesa, tambien debemos hacer uso de then
+            // Podemos utilizar esta sintaxis de JavaScript (split) podmos separar las difrentes partes de la respuesta. Lo que hacemos es extraer el valor especifico de la respuesta (esta variable proviene del Backend, que enviamos en send)
                 .then(function ({enemigos}) {
+                    // Utilizamos map (similar a forEach) ya que este nos devuelve el valor con la nueva lista modificada
                     mokeponesEnemigos = enemigos.map(function (enemigo) {
                         const mokeponNombre = enemigo.mokepon.nombre || "" 
                         let mokeponEnemigo = null
@@ -542,10 +548,10 @@ function enviarPosicion(x, y) {
                         } else if (mokeponNombre === "Ratigueya"){
                             mokeponEnemigo = new Mokepon('Ratigueya', './assets/ratigueya.png', 3, './assets/ratigueyaMapa.png', 350, 100)
                         }
-
+                        // Actualizamos los datos de las coordenadas de los mokepones nuevos a medida que se vayan uniendo
                         mokeponEnemigo.x = enemigo.x
                         mokeponEnemigo.y = enemigo.y
-
+                        // devolvemos los valores (lo requiere map)
                         return mokeponEnemigo
                     })
                 })
