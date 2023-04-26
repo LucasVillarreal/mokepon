@@ -79,7 +79,13 @@ app.post("/mokepon/:jugadorId/posicion", (req, res) => {
         // Actualizamos la posicion en x, y del jugador llamando al metodo de la clase Jugador
         jugadores[jugadorIndex].actualizarPosicion(x, y)
     }
-    res.end() // Respondemos nada
+
+    // Filtramos los otros jugadores dentro del juego y lo devolvemos al Frontend
+    const enemigos = jugadores.filter((jugador) => jugadorId !== jugador.id)
+    
+    res.send({
+        enemigos
+    }) // Devolvemos JSON porque no acepta otro dato para devolver
 })
 
 // Definimos en que puerto va a estar escuchando esas peticiones

@@ -7,6 +7,7 @@ let victoriasJugador = 0
 let victoriasEnemgio = 0
  // Variable donde vamos a almacenar los OBJETOS
 let mokepones = [] 
+let mokeponesEnemigos = [] 
  // Variable donde luego vamos a almacenar el template que mostaremos en el HTML
 let opcionDeMokepones
 let opcionDeAtaques
@@ -80,7 +81,8 @@ let jugadorId = null
 // Todas las clases inician con la 1er letra en May
 class Mokepon {
     // creamos las propiedades que va a llevar el objeto
-    constructor(nombre, foto, vida, imgCabeza, x = 10, y = 10) {
+    constructor(nombre, foto, vida, imgCabeza, x = 10, y = 10, id = null) {
+        this.id = id
         // Hacemos referencia a esto mismo, a mi clase misma. Es una variable interna donde guardamos el valor
         this.nombre = nombre
         this.foto = foto
@@ -111,60 +113,46 @@ let hipodogeObjeto = new Mokepon('Hipodoge', './assets/hipodoge.png', 3, './asse
 let capipepoObjeto = new Mokepon('Capipepo', './assets/capipepo.png', 3, './assets/capipepoMapa.png')
 let ratigueyaObjeto = new Mokepon('Ratigueya', './assets/ratigueya.png', 3, './assets/ratigueyaMapa.png')
 
-let hipodogeObjetoEnemigo = new Mokepon('Hipodoge', './assets/hipodoge.png', 3, './assets/hipodogeMapa.png', 200, 404)
-let capipepoObjetoEnemigo = new Mokepon('Capipepo', './assets/capipepo.png', 3, './assets/capipepoMapa.png', 700, 250)
-let ratigueyaObjetoEnemigo = new Mokepon('Ratigueya', './assets/ratigueya.png', 3, './assets/ratigueyaMapa.png', 350, 100)
+// let hipodogeObjetoEnemigo = new Mokepon('Hipodoge', './assets/hipodoge.png', 3, './assets/hipodogeMapa.png', 200, 404)
+// let capipepoObjetoEnemigo = new Mokepon('Capipepo', './assets/capipepo.png', 3, './assets/capipepoMapa.png', 700, 250)
+// let ratigueyaObjetoEnemigo = new Mokepon('Ratigueya', './assets/ratigueya.png', 3, './assets/ratigueyaMapa.png', 350, 100)
 
 
 // Obejtos literarios
 // Con el push indicamos que empuje estos datos al array en la variable de ataques que creamos en el constructor de la clase (template)
-hipodogeObjeto.ataques.push(
+const HIPODOGE_ATAQUES = [
     {nombre: '💧', id: 'boton-ataque-agua'},
     {nombre: '💧', id: 'boton-ataque-agua'},
     {nombre: '💧', id: 'boton-ataque-agua'},
     {nombre: '🔥', id: 'boton-ataque-fuego'},
     {nombre: '🌱', id: 'boton-ataque-tierra'}
-)
-
-capipepoObjeto.ataques.push(
+]
+const CAPIPEPO_ATAQUES = [
     {nombre: '🌱', id: 'boton-ataque-tierra'},
     {nombre: '🌱', id: 'boton-ataque-tierra'},
     {nombre: '🌱', id: 'boton-ataque-tierra'},
     {nombre: '🔥', id: 'boton-ataque-fuego'},
     {nombre: '💧', id: 'boton-ataque-agua'}
-)
-
-ratigueyaObjeto.ataques.push(
+]
+const RATIGUEYA_ATAQUES = [
     {nombre: '🔥', id: 'boton-ataque-fuego'},
     {nombre: '🔥', id: 'boton-ataque-fuego'},
     {nombre: '🔥', id: 'boton-ataque-fuego'},
     {nombre: '💧',  id: 'boton-ataque-agua'},
     {nombre: '🌱', id: 'boton-ataque-tierra'}
-)
+]
+hipodogeObjeto.ataques.push(...HIPODOGE_ATAQUES)
 
-hipodogeObjetoEnemigo.ataques.push(
-    {nombre: '💧', id: 'boton-ataque-agua'},
-    {nombre: '💧', id: 'boton-ataque-agua'},
-    {nombre: '💧', id: 'boton-ataque-agua'},
-    {nombre: '🔥', id: 'boton-ataque-fuego'},
-    {nombre: '🌱', id: 'boton-ataque-tierra'}
-)
+capipepoObjeto.ataques.push(...CAPIPEPO_ATAQUES)
 
-capipepoObjetoEnemigo.ataques.push(
-    {nombre: '🌱', id: 'boton-ataque-tierra'},
-    {nombre: '🌱', id: 'boton-ataque-tierra'},
-    {nombre: '🌱', id: 'boton-ataque-tierra'},
-    {nombre: '🔥', id: 'boton-ataque-fuego'},
-    {nombre: '💧', id: 'boton-ataque-agua'}
-)
+ratigueyaObjeto.ataques.push(...RATIGUEYA_ATAQUES)
 
-ratigueyaObjetoEnemigo.ataques.push(
-    {nombre: '🔥', id: 'boton-ataque-fuego'},
-    {nombre: '🔥', id: 'boton-ataque-fuego'},
-    {nombre: '🔥', id: 'boton-ataque-fuego'},
-    {nombre: '💧',  id: 'boton-ataque-agua'},
-    {nombre: '🌱', id: 'boton-ataque-tierra'}
-)
+// hipodogeObjetoEnemigo.ataques.push(...HIPODOGE_ATAQUES)
+
+// capipepoObjetoEnemigo.ataques.push(...CAPIPEPO_ATAQUES)
+
+// ratigueyaObjetoEnemigo.ataques.push(...RATIGUEYA_ATAQUES)
+
 // Empujamos los objetos creados al array para luego poder iterarlo y mostar los datos en el HTML
 mokepones.push(hipodogeObjeto, capipepoObjeto, ratigueyaObjeto)
 // Templates literarios
@@ -382,10 +370,12 @@ function pintarCanvas() {
     mokeponSeleccionado.pintarMokepon()
 
     enviarPosicion(mokeponSeleccionado.x, mokeponSeleccionado.y)
-
-    hipodogeObjetoEnemigo.pintarMokepon()
-    capipepoObjetoEnemigo.pintarMokepon()
-    ratigueyaObjetoEnemigo.pintarMokepon()
+    mokeponesEnemigos.forEach(function (mokepon) {
+        mokepon.pintarMokepon()
+    })
+    // hipodogeObjetoEnemigo.pintarMokepon()
+    // capipepoObjetoEnemigo.pintarMokepon()
+    // ratigueyaObjetoEnemigo.pintarMokepon()
     // Revisamos si nuestro mokepon está en movimiento
     // Llamamos a la fn de colision pasandole como parámetro contra quien
     if (mokeponSeleccionado.velocidadX !== 0 || mokeponSeleccionado.velocidadY !== 0) {
@@ -535,5 +525,30 @@ function enviarPosicion(x, y) {
             x,
             y
         })
-    }) // Como no recibimos respuesta no es necesario utilizar el then()
+    })
+    .then(function (res) {
+        if (res.ok) {
+            res.json()
+                .then(function ({enemigos}) {
+                    mokeponesEnemigos = enemigos.map(function (enemigo) {
+                        const mokeponNombre = enemigo.mokepon.nombre || "" 
+                        let mokeponEnemigo = null
+                        if (mokeponNombre === "Hipodoge") {
+                            mokeponEnemigo = new Mokepon('Hipodoge', './assets/hipodoge.png', 3, './assets/hipodogeMapa.png', 200, 404)
+
+                        } else if (mokeponNombre === "Capipepo") {
+                            mokeponEnemigo = new Mokepon('Capipepo', './assets/capipepo.png', 3, './assets/capipepoMapa.png', 700, 250)
+
+                        } else if (mokeponNombre === "Ratigueya"){
+                            mokeponEnemigo = new Mokepon('Ratigueya', './assets/ratigueya.png', 3, './assets/ratigueyaMapa.png', 350, 100)
+                        }
+
+                        mokeponEnemigo.x = enemigo.x
+                        mokeponEnemigo.y = enemigo.y
+
+                        return mokeponEnemigo
+                    })
+                })
+        }
+    })
 }
