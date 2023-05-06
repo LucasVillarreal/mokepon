@@ -3,6 +3,8 @@ const cors = require("cors") // Control de acceso
 
 const app = express() // Creamos una variable, una instancia del servidor que vamos a utilizar con express
 
+app.use(express.static('public'))
+
 app.use(cors()) // Indicamos que lo vamos a utilizar
 app.use(express.json()) // Para poder recibir los datos que nos van a mandar los usuarios por medio de POST en formato JSON necesitamos activar este modo en la app.
 
@@ -22,6 +24,10 @@ class Jugador {
     actualizarPosicion(x, y) {
         this.x = x
         this.y = y
+    }
+
+    asignarAtaques(ataques) {
+        this.ataques = ataques
     }
 }
 
@@ -73,6 +79,7 @@ app.post("/mokepon/:jugadorId/posicion", (req, res) => {
     // Estos provienen del Frontend
     const x = req.body.x || 0
     const y = req.body.y || 0
+    console.log(req.body)
     // Comprobamos que el ID del jugador exista dentro de los almacenados
     const jugadorIndex = jugadores.findIndex((jugador) => jugadorId === jugador.id)
     if (jugadorIndex >= 0) {
@@ -87,6 +94,27 @@ app.post("/mokepon/:jugadorId/posicion", (req, res) => {
         enemigos
     }) // Devolvemos JSON porque no acepta otro dato para enviar
 })
+
+app.post("/mokepon/:jugadorId/ataques", (req, res) => {
+    const jugadorId = req.params.jugadorId
+    const ataques = req.body.ataques || [] 
+
+    const jugadorIndex = jugadores.findIndex((jugador) => jugadorId === jugador.id)
+    if (jugadorIndex >= 0) {
+        jugadores[jugadorIndex].asignarAtaques(ataques)
+    }
+    res.end() // Terminamos la peticion sin responder nada
+})
+
+app.get("/mokepon/:jugadorId/ataques", (req, res) => {
+    const jugadorId = req.params.jugadorId
+    const jugadorIndex = jugadores.find((jugador) => jugador.id === jugadorId)
+    res.send({
+        ataques: jugadorIndex.ataques || []
+    })
+
+})
+
 
 // Definimos en que puerto va a estar escuchando esas peticiones
 app.listen(8080, () => {
